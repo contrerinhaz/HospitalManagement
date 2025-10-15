@@ -72,8 +72,8 @@ public class Menu
                     Console.Write("Email: ");
                     string email = Console.ReadLine();
                     Console.Write("Years of Experience: ");
-                    byte years = byte.Parse(Console.ReadLine());
-                    DoctorServices.CreateDoctor(name, age, idNum, phone, email, years);
+                    byte yearsExperience = byte.Parse(Console.ReadLine());
+                    DoctorServices.CreateDoctor(name, age, idNum, phone, email, yearsExperience);
                     break;
 
                 case "2":
@@ -115,18 +115,38 @@ public class Menu
                 case "6":
                     Console.Write("Doctor ID: ");
                     string upId = Console.ReadLine();
-                    Console.Write("New Name: ");
+                    var currentDoctor = DoctorServices.GetDoctorById(upId);
+                    if (currentDoctor == null)
+                    {
+                        Console.WriteLine("Doctor not found");
+                        break;
+                    }
+
+                    Console.WriteLine("Press ENTER to keep current value:");
+                    Console.Write($"New Name ({currentDoctor.Name}): ");
                     string newName = Console.ReadLine();
-                    Console.Write("New Age: ");
-                    byte newAge = byte.Parse(Console.ReadLine());
-                    Console.Write("New Identification Number: ");
+                    if (string.IsNullOrWhiteSpace(newName)) newName = currentDoctor.Name;
+
+                    Console.Write($"New Age ({currentDoctor.Age}): ");
+                    string ageInput = Console.ReadLine();
+                    byte newAge = string.IsNullOrWhiteSpace(ageInput) ? currentDoctor.Age : byte.Parse(ageInput);
+
+                    Console.Write($"New Identification Number ({currentDoctor.IdentificationNumber}): ");
                     string newIdNum = Console.ReadLine();
-                    Console.Write("New Phone: ");
+                    if (string.IsNullOrWhiteSpace(newIdNum)) newIdNum = currentDoctor.IdentificationNumber;
+
+                    Console.Write($"New Phone ({currentDoctor.Phone}): ");
                     string newPhone = Console.ReadLine();
-                    Console.Write("New Email: ");
+                    if (string.IsNullOrWhiteSpace(newPhone)) newPhone = currentDoctor.Phone;
+
+                    Console.Write($"New Email ({currentDoctor.Email}): ");
                     string newEmail = Console.ReadLine();
-                    Console.Write("New Years of Experience: ");
-                    byte newYears = byte.Parse(Console.ReadLine());
+                    if (string.IsNullOrWhiteSpace(newEmail)) newEmail = currentDoctor.Email;
+
+                    Console.Write("New Years of Experience (press ENTER to keep current): ");
+                    string yearsInput = Console.ReadLine();
+                    byte newYears = string.IsNullOrWhiteSpace(yearsInput) ? (byte)0 : byte.Parse(yearsInput);
+
                     DoctorServices.UpdateDoctor(upId, newName, newAge, newIdNum, newPhone, newEmail, newYears);
                     break;
 
@@ -212,16 +232,34 @@ public class Menu
                 case "5":
                     Console.Write("Patient ID: ");
                     string upId = Console.ReadLine();
-                    Console.Write("New Name: ");
+                    var currentPatient = PatientServices.GetPatientById(upId);
+                    if (currentPatient == null)
+                    {
+                        Console.WriteLine("Patient not found");
+                        break;
+                    }
+
+                    Console.WriteLine("Press ENTER to keep current value:");
+                    Console.Write($"New Name ({currentPatient.Name}): ");
                     string newName = Console.ReadLine();
-                    Console.Write("New Identification Number: ");
+                    if (string.IsNullOrWhiteSpace(newName)) newName = currentPatient.Name;
+
+                    Console.Write($"New Identification Number ({currentPatient.IdentificationNumber}): ");
                     string newIdNum = Console.ReadLine();
-                    Console.Write("New Age: ");
-                    byte newAge = byte.Parse(Console.ReadLine());
-                    Console.Write("New Phone: ");
+                    if (string.IsNullOrWhiteSpace(newIdNum)) newIdNum = currentPatient.IdentificationNumber;
+
+                    Console.Write($"New Age ({currentPatient.Age}): ");
+                    string ageInput = Console.ReadLine();
+                    byte newAge = string.IsNullOrWhiteSpace(ageInput) ? currentPatient.Age : byte.Parse(ageInput);
+
+                    Console.Write($"New Phone ({currentPatient.Phone}): ");
                     string newPhone = Console.ReadLine();
-                    Console.Write("New Email: ");
+                    if (string.IsNullOrWhiteSpace(newPhone)) newPhone = currentPatient.Phone;
+
+                    Console.Write($"New Email ({currentPatient.Email}): ");
                     string newEmail = Console.ReadLine();
+                    if (string.IsNullOrWhiteSpace(newEmail)) newEmail = currentPatient.Email;
+
                     PatientServices.UpdatePatient(upId, newName, newIdNum, newAge, newPhone, newEmail);
                     break;
 
@@ -307,17 +345,35 @@ public class Menu
                 case "5":
                     Console.Write("Appointment ID: ");
                     string upId = Console.ReadLine();
-                    Console.Write("Subject: ");
-                    string upSubject = Console.ReadLine();
-                    Console.Write("Doctor Name: ");
-                    string upDoctor = Console.ReadLine();
-                    Console.Write("Patient Name: ");
-                    string upPatient = Console.ReadLine();
-                    Console.Write("Symptoms: ");
-                    string upSymptoms = Console.ReadLine();
-                    Console.Write("Date (YYYY-MM-DD HH:mm): ");
-                    string upDate = Console.ReadLine();
-                    AppointmentServices.UpdateAppointment(upId, upSubject, upDoctor, upPatient, upSymptoms, upDate);
+                    var currentApp = AppointmentServices.GetAppointmentById(upId);
+                    if (currentApp == null)
+                    {
+                        Console.WriteLine("Appointment not found");
+                        break;
+                    }
+
+                    Console.WriteLine("Press ENTER to keep current value:");
+                    Console.Write($"New Subject ({currentApp.Subject}): ");
+                    string newSubject = Console.ReadLine();
+                    if (string.IsNullOrWhiteSpace(newSubject)) newSubject = currentApp.Subject;
+
+                    Console.Write($"Doctor Name ({currentApp.Doctor.Name}): ");
+                    string newDoctor = Console.ReadLine();
+                    if (string.IsNullOrWhiteSpace(newDoctor)) newDoctor = currentApp.Doctor.Name;
+
+                    Console.Write($"Patient Name ({currentApp.Patient.Name}): ");
+                    string newPatient = Console.ReadLine();
+                    if (string.IsNullOrWhiteSpace(newPatient)) newPatient = currentApp.Patient.Name;
+
+                    Console.Write($"Symptoms ({currentApp.Symptoms}): ");
+                    string newSymptoms = Console.ReadLine();
+                    if (string.IsNullOrWhiteSpace(newSymptoms)) newSymptoms = currentApp.Symptoms;
+
+                    Console.Write($"Date ({currentApp.Date}): ");
+                    string newDate = Console.ReadLine();
+                    if (string.IsNullOrWhiteSpace(newDate)) newDate = currentApp.Date.ToString();
+
+                    AppointmentServices.UpdateAppointment(upId, newSubject, newDoctor, newPatient, newSymptoms, newDate);
                     break;
 
                 case "6":

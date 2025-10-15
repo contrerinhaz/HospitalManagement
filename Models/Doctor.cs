@@ -8,7 +8,7 @@ public class Doctor (string name, byte age, string identificationNumber, string 
     {
     }
 
-    private byte YearsExperience { get; set; }
+    public byte YearsExperience { get; set; }
     
     public override void ShowInfo()
     {

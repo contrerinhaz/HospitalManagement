@@ -68,7 +68,9 @@ public class PatientServices
 
         try
         {
-            return _patientRepository.GetByDocument(identificationNumber);
+            var all = _patientRepository.Get();
+            return all.FirstOrDefault(p =>
+                p.IdentificationNumber.Trim().Equals(identificationNumber.Trim(), StringComparison.OrdinalIgnoreCase));
         }
         catch (Exception err)
         {
@@ -76,6 +78,7 @@ public class PatientServices
             return null;
         }
     }
+
 
     public static void UpdatePatient(string id, string newName, string newIdentificationNumber, byte newAge, string newPhone, string newEmail)
     {
